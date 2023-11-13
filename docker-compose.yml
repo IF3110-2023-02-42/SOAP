@@ -4,7 +4,7 @@ services:
     container_name: studydojo-soap-service-db
     image: mysql:latest
     ports:
-      - "3300:3300"
+      - "3300:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_SOAP}
       MYSQL_DATABASE: ${MYSQL_DATABASE_SOAP}
