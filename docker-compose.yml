@@ -8,6 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_SOAP}
       MYSQL_DATABASE: ${MYSQL_DATABASE_SOAP}
+    volumes:
+      - ./db_data:/var/lib/mysql
   soap-service:
     container_name: studydojo-soap-service-api
     image: sabun:latest
