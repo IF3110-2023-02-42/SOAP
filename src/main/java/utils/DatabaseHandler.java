@@ -2,6 +2,7 @@ package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DatabaseHandler {
@@ -46,5 +47,21 @@ public class DatabaseHandler {
     }
     protected void finalize () throws SQLException {
         this.con.close();
+    }
+
+    public PreparedStatement prepareQuery(String query, Object... params) throws SQLException {
+        try {
+            Connection connection = instance.getConnection();
+
+            PreparedStatement pstmt = connection.prepareStatement(query);
+
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]);
+            }
+            return pstmt;
+        } catch (SQLException err) {
+            err.printStackTrace();
+            throw err;
+        }
     }
 }

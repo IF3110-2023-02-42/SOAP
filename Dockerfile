@@ -5,6 +5,7 @@ WORKDIR /app
 
 # Copy the packaged JAR file into the image
 COPY target/SOAP-0.0-jar-with-dependencies.jar /app/SOAP-0.0-jar-with-dependencies.jar
+COPY .env /app/.env
 
 # Expose the port your app runs on
 EXPOSE 6060

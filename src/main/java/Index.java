@@ -18,7 +18,7 @@ public class Index {
             Endpoint.publish(host+":"+port+entry, new SoapService());
             System.out.println("Server started at "+host+":"+port+entry);
         } catch (Exception e){
-            System.out.println("Something Wlong");
+            System.out.println(e);
         }
     }
 }
