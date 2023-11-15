@@ -1,8 +1,6 @@
 package controller;
 
-import models.implementation.DummyModel;
 import models.implementation.LogModel;
-import repository.implementation.DummyRepo;
 import repository.implementation.LogRepo;
 
 import java.sql.SQLException;
@@ -21,7 +19,7 @@ public class LogController {
 
     public LogModel newRecord(String description, String IP, String endpoint) throws SQLException {
         try {
-            return LogRepo.getInstance().newRecord(description,IP,endpoint);
+            return LogRepo.getInstance().newRecord(description, IP, endpoint);
         } catch (Exception e) {
             System.out.println("exception: " + e.getMessage());
             e.printStackTrace();
