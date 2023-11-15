@@ -1,11 +1,15 @@
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 import middlewares.Cors;
+import middlewares.Log;
 import service.SoapService;
 import utils.ConfigHandler;
 
 import javax.xml.ws.Endpoint;
+import javax.xml.ws.handler.Handler;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Index {
     private final static String SERVER_HOST_KEY = "server.host";
@@ -22,6 +26,9 @@ public class Index {
             HttpContext context = server.createContext(entry);
 
             Endpoint endpoint = Endpoint.create(new SoapService());
+            List<Handler> handlerChain = new ArrayList<>();
+            handlerChain.add(new Log());
+            endpoint.getBinding().setHandlerChain(handlerChain);
             endpoint.publish(context);
 
             context.getFilters().add(new Cors());
