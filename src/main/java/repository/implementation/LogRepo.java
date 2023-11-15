@@ -49,7 +49,7 @@ public class LogRepo extends BaseRepo<LogModel> {
     public LogModel create(LogModel log) throws SQLException {
         try {
             String query = "INSERT INTO " + this.tableName
-                    + " (ID_Log, description, IP, endpoint, createdAt) VALUES (?, ?, ?, ?, ?)";
+                    + " (ID_Log, requestDescription, IP, endpoint, createdAt) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = this.db.prepareQuery(query, log.getID_Log(), log.getDescription(), log.getIP(),
                     log.getEndpoint(), log.getCreatedAt());
             int rs = pstmt.executeUpdate();
@@ -82,7 +82,7 @@ public class LogRepo extends BaseRepo<LogModel> {
 
     public LogModel newRecord(String description, String IP, String endpoint) throws SQLException {
         try {
-            String query = "INSERT INTO " + this.tableName + " (description, IP, endpoint) VALUES (?, ?, ?)";
+            String query = "INSERT INTO " + this.tableName + " (requestDescription, IP, endpoint) VALUES (?, ?, ?)";
             PreparedStatement pstmt = this.db.prepareQuery(query, description, IP, endpoint);
             int ar = pstmt.executeUpdate();
             if (ar > 0) {
@@ -106,7 +106,7 @@ public class LogRepo extends BaseRepo<LogModel> {
             Statement stmt = this.db.getConnection().createStatement();
             int rs = stmt.executeUpdate(
                     "UPDATE " + this.tableName +
-                            " SET description = '" + log.getDescription() +
+                            " SET requestDescription = '" + log.getDescription() +
                             "', IP = '" + log.getIP() +
                             "', endpoint = '" + log.getEndpoint() +
                             "', createdAt = '" + log.getCreatedAt() +
