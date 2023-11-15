@@ -1,7 +1,11 @@
+import com.sun.net.httpserver.HttpContext;
+import com.sun.net.httpserver.HttpServer;
+import middlewares.Cors;
 import service.SoapService;
 import utils.ConfigHandler;
 
 import javax.xml.ws.Endpoint;
+import java.net.InetSocketAddress;
 
 public class Index {
     private final static String SERVER_HOST_KEY = "server.host";
@@ -14,11 +18,17 @@ public class Index {
             String port = ch.get(SERVER_PORT_KEY);
             String entry = ch.get(SERVER_ENTRY_KEY);
 
-            System.out.println("Trying to connect to "+host+":"+port);
-            Endpoint.publish(host+":"+port+entry, new SoapService());
+            HttpServer server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
+            HttpContext context = server.createContext(entry);
+
+            Endpoint endpoint = Endpoint.create(new SoapService());
+            endpoint.publish(context);
+
+            context.getFilters().add(new Cors());
+            server.start();
             System.out.println("Server started at "+host+":"+port+entry);
         } catch (Exception e){
-            System.out.println("Something Wlong");
+            System.out.println(e);
         }
     }
 }

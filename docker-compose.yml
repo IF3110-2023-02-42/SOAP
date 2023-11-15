@@ -20,3 +20,4 @@ services:
       - "6060:6060"
     volumes:
       - ./target/SOAP-0.0-jar-with-dependencies.jar:/app/SOAP-0.0-jar-with-dependencies.jar
+      - .env:/app/.env
