@@ -106,7 +106,7 @@ public class UserRepo extends BaseRepo<UserModel> {
     public UserModel update(UserModel user) throws SQLException {
         try {
             String query = "UPDATE " + this.tableName
-                    + " SET nama =? email =? verificationStatus =? tanggalPengajuan=? WHERE ID_Pengguna=?";
+                    + " SET nama  =? email =? verificationStatus =? tanggalPengajuan=? WHERE ID_Pengguna=?";
             PreparedStatement pstmt = this.db.prepareQuery(query, user.getNama(), user.getEmail(),
                     user.getVerificationStatus(), user.getTanggalPengajuan());
             int rs = pstmt.executeUpdate();
@@ -124,8 +124,8 @@ public class UserRepo extends BaseRepo<UserModel> {
     public UserModel update(int ID_Pengguna, String verificationStatus) throws SQLException {
         try {
             String query = "UPDATE " + this.tableName
-                    + "verificationStatus =? WHERE ID_Pengguna=?";
-            PreparedStatement pstmt = this.db.prepareQuery(query, ID_Pengguna, verificationStatus);
+                    + " SET verificationStatus = ? WHERE ID_Pengguna = ?";
+            PreparedStatement pstmt = this.db.prepareQuery(query, verificationStatus, ID_Pengguna);
             int rs = pstmt.executeUpdate();
 
             if (rs > 0) {
