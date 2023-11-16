@@ -1,9 +1,6 @@
 package utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatabaseHandler {
     private static DatabaseHandler instance = null;
@@ -53,7 +50,7 @@ public class DatabaseHandler {
         try {
             Connection connection = instance.getConnection();
 
-            PreparedStatement pstmt = connection.prepareStatement(query);
+            PreparedStatement pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             for (int i = 0; i < params.length; i++) {
                 pstmt.setObject(i + 1, params[i]);

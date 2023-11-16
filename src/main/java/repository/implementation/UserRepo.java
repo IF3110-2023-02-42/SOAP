@@ -66,7 +66,7 @@ public class UserRepo extends BaseRepo<UserModel> {
     public UserModel getRecordById(int ID_Pengguna) throws SQLException {
         try {
             String query = "SELECT * FROM " + this.tableName + " WHERE ID_Pengguna = ? ";
-            PreparedStatement pstmt = this.db.prepareQuery(query, ID_Pengguna);
+            PreparedStatement pstmt = this.db.prepareQuery(query,ID_Pengguna);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 UserModel newUser = new UserModel();
