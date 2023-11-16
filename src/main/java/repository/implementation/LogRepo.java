@@ -50,7 +50,7 @@ public class LogRepo extends BaseRepo<LogModel> {
         try {
             String query = "INSERT INTO " + this.tableName
                     + " (ID_Log, requestDescription, IP, endpoint, createdAt) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = this.db.prepareQuery(query, log.getID_Log(), log.getDescription(), log.getIP(),
+            PreparedStatement pstmt = this.db.prepareQuery(query,false, log.getID_Log(), log.getDescription(), log.getIP(),
                     log.getEndpoint(), log.getCreatedAt());
             int rs = pstmt.executeUpdate();
             if (rs > 0) {
@@ -82,6 +82,7 @@ public class LogRepo extends BaseRepo<LogModel> {
 
     public LogModel newRecord(String description, String IP, String endpoint) throws SQLException {
         try {
+            System.out.println("CALLING LOGGERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr");
             String query = "INSERT INTO " + this.tableName + " (requestDescription, IP, endpoint) VALUES (?, ?, ?)";
             PreparedStatement pstmt = this.db.prepareQuery(query, description, IP, endpoint);
             int ar = pstmt.executeUpdate();
