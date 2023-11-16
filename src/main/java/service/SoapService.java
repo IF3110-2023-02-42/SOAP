@@ -7,12 +7,19 @@ import models.implementation.DummyModel;
 import models.implementation.LogModel;
 import models.implementation.UserModel;
 import utils.EnviromentHandler;
+import utils.EmailHandler;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.PasswordAuthentication;
+import javax.mail.Authenticator;
+import javax.mail.Session;
 
 @WebService
 public class SoapService {
@@ -28,6 +35,26 @@ public class SoapService {
     @WebMethod
     public List<DummyModel> GetDummyData() {
         try {
+            String smtpHostServer = "sandbox.smtp.mailtrap.io";
+            String emailID = "a4b843fe33aa0a";
+
+            Properties props = System.getProperties();
+
+            props.put("mail.smtp.host", smtpHostServer); // SMTP Host
+            props.put("mail.smtp.port", "2525"); // TLS Port
+            props.put("mail.smtp.auth", "true"); // enable authentication
+            props.put("mail.smtp.starttls.enable", "true"); // enable STARTTLS
+
+            String password = "5316ec9ed107ba";
+
+            Authenticator auth = new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(emailID, password);
+                }
+            };
+            Session session = Session.getInstance(props, auth);
+
+            EmailHandler.sendEmail(session, emailID, "SimpleEmail Testing Subject", "SimpleEmail Testing Body");
             return this.dummyController.getAllDummyData();
         } catch (Exception e) {
             System.out.println("exception: " + e.getMessage());
@@ -75,6 +102,7 @@ public class SoapService {
     @WebMethod
     public List<UserModel> getAllRequest() throws SQLException {
         try {
+
             return this.userController.getAllUser();
         } catch (Exception er) {
             er.printStackTrace();
