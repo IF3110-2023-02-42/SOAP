@@ -57,7 +57,7 @@ public class UserController {
         } catch (Exception e) {
             System.out.println("exception: " + e.getMessage());
             e.printStackTrace();
-            return null;
+            return "Something wrong";
         }
     }
 }

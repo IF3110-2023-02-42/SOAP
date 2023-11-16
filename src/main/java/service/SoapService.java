@@ -111,7 +111,7 @@ public class SoapService {
         } catch (Exception er) {
             System.out.println(er.getMessage());
             er.printStackTrace();
-            return null;
+            return "Something wrong";
         }
     }
 

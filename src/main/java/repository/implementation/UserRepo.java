@@ -68,12 +68,14 @@ public class UserRepo extends BaseRepo<UserModel> {
             String query = "SELECT * FROM " + this.tableName + " WHERE ID_Pengguna = ? ";
             PreparedStatement pstmt = this.db.prepareQuery(query,ID_Pengguna);
             ResultSet rs = pstmt.executeQuery();
+            UserModel newUser = new UserModel();
             if (rs.next()) {
-                UserModel newUser = new UserModel();
                 newUser.constructFromSQL(rs);
                 return newUser;
+            } else {
+                newUser.setVerificationStatus("notfound");
             }
-            return null;
+            return newUser;
         } catch (Exception err) {
             err.printStackTrace();
             throw err;
