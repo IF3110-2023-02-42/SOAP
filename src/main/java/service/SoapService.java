@@ -104,4 +104,15 @@ public class SoapService {
         }
     }
 
+    @WebMethod
+    public String addUserRequest(int ID_Pengguna, String nama, String email) {
+        try {
+            return this.userController.createRequest(ID_Pengguna, nama, email);
+        } catch (Exception er) {
+            System.out.println(er.getMessage());
+            er.printStackTrace();
+            return null;
+        }
+    }
+
 }

@@ -49,4 +49,15 @@ public class UserController {
             return null;
         }
     }
+
+    public String createRequest(int ID_Pengguna, String nama, String email) {
+        try {
+            this.repo.newRecord(ID_Pengguna, nama, email, "unverified");
+            return "Success Add new Request";
+        } catch (Exception e) {
+            System.out.println("exception: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
