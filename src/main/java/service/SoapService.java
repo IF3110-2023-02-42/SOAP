@@ -16,6 +16,10 @@ import java.util.List;
 
 @WebService
 public class SoapService {
+    private DummyController dummyController = new DummyController();
+    private LogController logController = new LogController();
+    private UserController userController = new UserController();
+
     @WebMethod
     public String TestConnection(String name) {
         return "Hello " + name;
@@ -24,8 +28,7 @@ public class SoapService {
     @WebMethod
     public List<DummyModel> GetDummyData() {
         try {
-            DummyController controller = new DummyController();
-            return controller.getAllDummyData();
+            return this.dummyController.getAllDummyData();
         } catch (Exception e) {
             System.out.println("exception: " + e.getMessage());
             e.printStackTrace();
@@ -52,8 +55,7 @@ public class SoapService {
             String description = "Description is description";
             String IP = "192.168.1.1";
             String endpoint = "/api/ipa";
-            LogController controller = new LogController();
-            return controller.newRecord(description, IP, endpoint);
+            return this.logController.newRecord(description, IP, endpoint);
         } catch (Exception er) {
             er.printStackTrace();
             return null;
@@ -63,8 +65,7 @@ public class SoapService {
     @WebMethod
     public List<LogModel> getAllLog() throws SQLException {
         try {
-            LogController controller = new LogController();
-            return controller.getAllLog();
+            return this.logController.getAllLog();
         } catch (Exception er) {
             er.printStackTrace();
             return null;
@@ -74,8 +75,7 @@ public class SoapService {
     @WebMethod
     public List<UserModel> getAllRequest() throws SQLException {
         try {
-            UserController controller = new UserController();
-            return controller.getAllUser();
+            return this.userController.getAllUser();
         } catch (Exception er) {
             er.printStackTrace();
             return null;
@@ -85,8 +85,18 @@ public class SoapService {
     @WebMethod
     public UserModel updateStatus(int ID_Pengguna, String verificationStatus) {
         try {
-            UserController controller = new UserController();
-            return controller.updateStatus(ID_Pengguna, verificationStatus);
+            return this.userController.updateStatus(ID_Pengguna, verificationStatus);
+        } catch (Exception er) {
+            System.out.println(er.getMessage());
+            er.printStackTrace();
+            return null;
+        }
+    }
+
+    @WebMethod
+    public UserModel getUserStatus(int ID_Pengguna) {
+        try {
+            return this.userController.getUser(ID_Pengguna);
         } catch (Exception er) {
             System.out.println(er.getMessage());
             er.printStackTrace();

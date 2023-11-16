@@ -7,9 +7,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserController {
+    private UserRepo repo = UserRepo.getInstance();
+
     public List<UserModel> getAllUser() {
         try {
-            return UserRepo.getInstance().findAll();
+            return this.repo.findAll();
         } catch (Exception e) {
             System.out.println("exception: " + e.getMessage());
             e.printStackTrace();
@@ -20,7 +22,7 @@ public class UserController {
     public UserModel newRecord(int ID_Pengguna, String nama, String email, String verificationStatus)
             throws SQLException {
         try {
-            return UserRepo.getInstance().newRecord(ID_Pengguna, nama, email, verificationStatus);
+            return this.repo.newRecord(ID_Pengguna, nama, email, verificationStatus);
         } catch (Exception e) {
             System.out.println("exception: " + e.getMessage());
             e.printStackTrace();
@@ -30,7 +32,17 @@ public class UserController {
 
     public UserModel updateStatus(int ID_Pengguna, String verificationStatus) {
         try {
-            return UserRepo.getInstance().update(ID_Pengguna, verificationStatus);
+            return this.repo.update(ID_Pengguna, verificationStatus);
+        } catch (Exception e) {
+            System.out.println("exception: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public UserModel getUser(int ID_Pengguna) {
+        try {
+            return this.repo.getRecordById(ID_Pengguna);
         } catch (Exception e) {
             System.out.println("exception: " + e.getMessage());
             e.printStackTrace();
