@@ -34,29 +34,32 @@ public class SoapService {
         return "Hello " + name;
     }
 
+    public void SendEmail(String destinationEmail, String subject, String message) {
+        String smtpHostServer = "sandbox.smtp.mailtrap.io";
+        String emailID = "a4b843fe33aa0a";
+
+        Properties props = System.getProperties();
+
+        props.put("mail.smtp.host", smtpHostServer); // SMTP Host
+        props.put("mail.smtp.port", "2525"); // TLS Port
+        props.put("mail.smtp.auth", "true"); // enable authentication
+        props.put("mail.smtp.starttls.enable", "true"); // enable STARTTLS
+
+        String password = "5316ec9ed107ba";
+
+        Authenticator auth = new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(emailID, password);
+            }
+        };
+        Session session = Session.getInstance(props, auth);
+
+        EmailHandler.sendEmail(session, destinationEmail, subject, message);
+    }
+
     @WebMethod
     public List<DummyModel> GetDummyData() {
         try {
-            String smtpHostServer = "sandbox.smtp.mailtrap.io";
-            String emailID = "a4b843fe33aa0a";
-
-            Properties props = System.getProperties();
-
-            props.put("mail.smtp.host", smtpHostServer); // SMTP Host
-            props.put("mail.smtp.port", "2525"); // TLS Port
-            props.put("mail.smtp.auth", "true"); // enable authentication
-            props.put("mail.smtp.starttls.enable", "true"); // enable STARTTLS
-
-            String password = "5316ec9ed107ba";
-
-            Authenticator auth = new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(emailID, password);
-                }
-            };
-            Session session = Session.getInstance(props, auth);
-
-            EmailHandler.sendEmail(session, emailID, "SimpleEmail Testing Subject", "SimpleEmail Testing Body");
             return this.dummyController.getAllDummyData();
         } catch (Exception e) {
             System.out.println("exception: " + e.getMessage());
@@ -115,7 +118,19 @@ public class SoapService {
     @WebMethod
     public UserModel updateStatus(int ID_Pengguna, String verificationStatus) {
         try {
-            return this.userController.updateStatus(ID_Pengguna, verificationStatus);
+            UserModel user = this.userController.updateStatus(ID_Pengguna, verificationStatus);
+            String subject = "Verification Status";
+            String message;
+            if (verificationStatus == "rejected") {
+                message = "Halo " + user.getNama()
+                        + ", Mohon maaf pengajuan akun premium Anda ditolak. Silakan coba lagi di lain waktu !";
+            } else if (verificationStatus == "accepted") {
+                message = "Halo " + user.getNama() + ", Selamat pengajuan akun premium Anda diterima!";
+            } else {
+                message = "Halo " + user.getNama() + ", Pengajuan anda sedang diproses";
+            }
+            this.SendEmail(user.getEmail(), subject, message);
+            return user;
         } catch (Exception er) {
             System.out.println(er.getMessage());
             er.printStackTrace();
@@ -135,11 +150,11 @@ public class SoapService {
     }
 
     @WebMethod
-    public List<BookmarkModel> findBookmarkByID(int ID_Pengguna){
-        try{
+    public List<BookmarkModel> findBookmarkByID(int ID_Pengguna) {
+        try {
             BookmarkController controller = new BookmarkController();
             return controller.findByID(ID_Pengguna);
-        } catch (Exception er){
+        } catch (Exception er) {
             System.out.println(er.getMessage());
             er.printStackTrace();
             return null;
@@ -147,15 +162,16 @@ public class SoapService {
     }
 
     @WebMethod
-    public void addBookmark(int ID_Pengguna, int ID_Material){
-        try{
+    public void addBookmark(int ID_Pengguna, int ID_Material) {
+        try {
             BookmarkController controller = new BookmarkController();
             controller.addBookmark(ID_Pengguna, ID_Material);
-        } catch (Exception er){
+        } catch (Exception er) {
             System.out.println(er.getMessage());
             er.printStackTrace();
         }
     }
+
     @WebMethod
     public String addUserRequest(int ID_Pengguna, String nama, String email) {
         try {
