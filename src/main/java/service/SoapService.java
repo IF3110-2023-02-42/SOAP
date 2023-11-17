@@ -3,9 +3,11 @@ package service;
 import controller.DummyController;
 import controller.LogController;
 import controller.UserController;
+import controller.BookmarkController;
 import models.implementation.DummyModel;
 import models.implementation.LogModel;
 import models.implementation.UserModel;
+import models.implementation.BookmarkModel;
 import utils.EnviromentHandler;
 import utils.EmailHandler;
 
@@ -132,6 +134,28 @@ public class SoapService {
         }
     }
 
+    @WebMethod
+    public List<BookmarkModel> findBookmarkByID(int ID_Pengguna){
+        try{
+            BookmarkController controller = new BookmarkController();
+            return controller.findByID(ID_Pengguna);
+        } catch (Exception er){
+            System.out.println(er.getMessage());
+            er.printStackTrace();
+            return null;
+        }
+    }
+
+    @WebMethod
+    public void addBookmark(int ID_Pengguna, int ID_Material){
+        try{
+            BookmarkController controller = new BookmarkController();
+            controller.addBookmark(ID_Pengguna, ID_Material);
+        } catch (Exception er){
+            System.out.println(er.getMessage());
+            er.printStackTrace();
+        }
+    }
     @WebMethod
     public String addUserRequest(int ID_Pengguna, String nama, String email) {
         try {
