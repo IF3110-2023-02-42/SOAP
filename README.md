@@ -54,6 +54,7 @@ Service SOAP pada StudyDojo App digunakan untuk mengelola permintaan verificatio
 
 - Fungsi newRecord() : 13521106
 - Fungsi getAllLog() : 13521106
+- Fungsi sendemail(): 13521066
 - Fungsi getAllRequest() : 13521066
 - Fungsi updateStatus() : 13521066
 - Fungsi getUserStatus() : 13521066
